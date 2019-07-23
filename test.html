@@ -1,0 +1,60 @@
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+
+<body>
+    <div id="graphDiv"></div>
+    <script>
+        Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/parcoords_data.csv', function (err, rows) {
+
+            function unpack(rows, key) {
+                return rows.map(function (row) {
+                    return row[key];
+                });
+            }
+
+            var data = [{
+                type: 'parcoords',
+                line: {
+                    showscale: true,
+                    reversescale: true,
+                    colorscale: 'Jet',
+                    cmin: -4000,
+                    cmax: -100,
+                    color: unpack(rows, 'colorVal')
+                },
+
+                dimensions: [{
+                    constraintrange: [100000, 150000],
+                    range: [32000, 227900],
+                    label: 'Volume',
+                    values: unpack(rows, 'blockHeight')
+                }, {
+                    label: 'Protocol',
+                    tickvals: [0, 1, 2, 3],
+                    ticktext: ['other', 'udp', 'tcp', 'esp', 'gre'],
+                    values: unpack(rows, 'cycMaterial')
+                }, {
+                    range: [9, 10000],
+                    label: 'Source Port',
+                    tickvals: [100, 500, 3000, 5000, 7000, 9000],
+                    ticktext: ['22','80', '443', '1094', '4080','2170'],
+                    values: unpack(rows, 'assemblyPW')
+                }, {
+                    range: [0, 700000],
+                    label: 'Destination Port',
+                    tickvals: [100000, 400000, 450000, 500000, 550000, 600000],
+                    ticktext: [80, 443, 22, 1095, 5201, 9620],
+                    values: unpack(rows, 'blockWidth')
+                }]
+            }];
+
+            Plotly.plot('graphDiv', data, {}, { showSendToCloud: true });
+
+        });
+    </script>
+</body>
+
+</html>
