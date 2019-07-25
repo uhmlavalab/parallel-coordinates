@@ -38,7 +38,7 @@ for (let i = 0; i < hits.length; i++) {
 
 }
 
-//~~~~~~~~~~~~~~~ Condense into top 10. ~~~~~~~~~~~~~
+//~~~~~~~~~~~~~~~ Aggregate by pairs ~~~~~~~~~~~~~
 let condensed = [];
 for (i = 0; i < thingArray.length; i++) {
     let added = false;
@@ -48,7 +48,7 @@ for (i = 0; i < thingArray.length; i++) {
             condensed[j].src_port_array.push(thingArray[i].src_port);
             condensed[j].dst_port_array.push(thingArray[i].dst_port);
             condensed[j].protocol_array.push(thingArray[i].protocol);
-            condensed[j].values_array.push(thingArray[i].value);
+            condensed[j].values_array.push(thingArray[i].value/8);
             condensed[j].value += thingArray[i].value;
             break;
         }
@@ -60,7 +60,7 @@ for (i = 0; i < thingArray.length; i++) {
             src_port_array: [thingArray[i].src_port],
             dst_port_array: [thingArray[i].dst_port],
             protocol_array: [thingArray[i].protocol],
-            values_array: [thingArray[i].value],
+            values_array: [thingArray[i].value/8],
             total_value: thingArray[i].value
         }
         condensed.push(newThing);
@@ -69,6 +69,7 @@ for (i = 0; i < thingArray.length; i++) {
 
 console.log(condensed.length);
 
+//~~~~~~~~~~~~~~~~~find top 10~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 let top_ten = [];
 for (i = 0; i < 10; i++) {
     top_ten.push(condensed[i]);
@@ -82,8 +83,11 @@ for (i = 10; i < condensed.length; i++) {
     }
 }
 
-top_ten.sort(function (a, b) { return a.value - b.value });
-console.log("[" + top_ten[9].src_port_array + "]")
+top_ten.sort(function (a, b) { return a.total_value - b.total_value });
+for (i = 0; i < 10; i++) {
+    console.log("[" + top_ten[i].src_port_array + "]")
+}
+
 
 //~~~~~ Create separate arrays for each data "column" ~~~~~
 
@@ -99,15 +103,15 @@ for (let i = 0; i < top_ten.length; i++) {
     src_org_array.push(top_ten[i].src_org);
     dst_org_array.push(top_ten[i].dst_org);
     src_port_array.push(top_ten[i].src_port_array);
-    dst_port_array.push(thingArray[i].dst_port);
-    values_array.push(thingArray[i].value / 8);
+    dst_port_array.push(top_ten[i].dst_port_array);
+    values_array.push(top_ten[i].values_array);
     //color_array.push(thingArray[i].color);
-    protocol_array.push(thingArray[i].protocol);
+    protocol_array.push(top_ten[i].protocol_array);
 }
 
 let protocol_legend = [];
 let protocol_data = [];
-for (let i = 0; i < src_org_array.length; i++) {
+for (let i = 0; i < protocol_array.length; i++) {
     let added = false;
     let key = 0;
     for (let j = 0; j < protocol_legend.length; j++) {
@@ -123,17 +127,6 @@ for (let i = 0; i < src_org_array.length; i++) {
     protocol_data.push(key);
 };
 
-//~~~~~~~~~~ PRINT data ~~~~~~~~~~~~~~~~
-/*
-console.log("src_port [" + src_port_array + "]");
-console.log("dst port [" + dst_port_array + "]");
-console.log("values [" + values_array + "]");
-//console.log("[" + color_array + "]");
-console.log("protocol [" + protocol_data + "]");
-console.log("protocol leg [" + protocol_legend + "]");
-
-//console.log(JSON.stringify(key + ","));
-*/
 // ~~~~~~~~~~~~~~~~~~ Source/Dest Organizations ~~~~~~~~~~~~~~~~~~~~
 
 let src_org_legend = [];
@@ -192,3 +185,14 @@ for (i = 0; i < values_array.length; i++) {
 }
 console.log("colors [" + color_vals + "]");
 
+//~~~~~~~~~~ PRINT data ~~~~~~~~~~~~~~~~
+/*
+console.log("src_port [" + src_port_array + "]");
+console.log("dst port [" + dst_port_array + "]");
+console.log("values [" + values_array + "]");
+//console.log("[" + color_array + "]");
+console.log("protocol [" + protocol_data + "]");
+console.log("protocol leg [" + protocol_legend + "]");
+
+//console.log(JSON.stringify(key + ","));
+*/
