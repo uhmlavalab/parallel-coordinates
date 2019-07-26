@@ -85,7 +85,7 @@ for (i = 10; i < condensed.length; i++) {
 
 top_ten.sort(function (a, b) { return a.total_value - b.total_value });
 for (i = 0; i < 10; i++) {
-    console.log("[" + top_ten[i].src_port_array + "]")
+    console.log("[" + top_ten[i].total_value + "]")
 }
 
 
@@ -99,15 +99,18 @@ let values_array = [];
 //let color_array = [];
 let protocol_array = [];
 
-for (let i = 0; i < top_ten.length; i++) {
-    src_org_array.push(top_ten[i].src_org);
-    dst_org_array.push(top_ten[i].dst_org);
+for (let i = 0; i < top_ten.length; i++) {  
     src_port_array.push(top_ten[i].src_port_array);
     dst_port_array.push(top_ten[i].dst_port_array);
     values_array.push(top_ten[i].values_array);
     //color_array.push(thingArray[i].color);
-    protocol_array.push(top_ten[i].protocol_array);
+    for (let j = 0; j < top_ten[i].protocol_array.length; j++) {
+        protocol_array.push(top_ten[i].protocol_array[j]);
+        src_org_array.push(top_ten[i].src_org);
+        dst_org_array.push(top_ten[i].dst_org);
+    }   
 }
+//~~~~~~~~~~~~~~~~~~~~make legends/tick labels~~~~~~~~~~~~~~~~~~~
 
 let protocol_legend = [];
 let protocol_data = [];
@@ -181,18 +184,19 @@ for (i = 0; i < dst_org_legend.length; i++) {
 
 let color_vals = [];
 for (i = 0; i < values_array.length; i++) {
-    color_vals.push(Math.floor(values_array[i] / 8000))
+    for (j = 0; j < values_array[i].length; j++) {
+    color_vals.push(Math.floor(values_array[i][j] / 8000))
+}
 }
 console.log("colors [" + color_vals + "]");
 
 //~~~~~~~~~~ PRINT data ~~~~~~~~~~~~~~~~
-/*
+
 console.log("src_port [" + src_port_array + "]");
 console.log("dst port [" + dst_port_array + "]");
-console.log("values [" + values_array + "]");
+//console.log("values [" + values_array + "]");
 //console.log("[" + color_array + "]");
 console.log("protocol [" + protocol_data + "]");
 console.log("protocol leg [" + protocol_legend + "]");
 
 //console.log(JSON.stringify(key + ","));
-*/
