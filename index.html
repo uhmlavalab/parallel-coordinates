@@ -5,7 +5,13 @@
 </head>
 
 <body>
-    <div id="graphDiv" style="height: 800px; width: 90%; padding-left: 50px;"></div>
+    <div id="graphDiv" style="height: 800px; width: 90%; margin-left: 50px;"></div>
+    <style>
+        .tick {
+            text-anchor: start !important;
+        }
+    </style>
+    
     <script>
         Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/parcoords_data.csv', function (err, rows) {
 
@@ -40,7 +46,7 @@
                     size: 16
                 },
                 tickfont: {
-                    size: 12
+                    size: 11
                 },
 
                 dimensions: [{
