@@ -7,8 +7,17 @@
 <body>
     <div id="graphDiv" style="height: 800px; width: 90%; margin-left: 50px;"></div>
     <style>
-        .tick {
+        .tick text{
             text-anchor: start !important;
+            word-wrap: break-word;
+            text-shadow: rgb(255, 255, 255) 2px 2px 2px,
+             rgb(255, 255, 255) -2px -2px 2px,
+              rgb(255, 255, 255) 1px -1px 1px,
+               rgb(255, 255, 255) -1px 1px 1px !important;
+            font-weight: bold;
+        }
+        .tick {
+            max-width: 50px;
         }
     </style>
     
@@ -50,7 +59,7 @@
                 },
 
                 dimensions: [{
-                    constraintrange: [0, 1],
+                    constraintrange: [0, 7],
                     range: [-1, 8],
                     label: 'Source Organization',
                     tickvals: [0, 1, 2, 3, 4, 5, 6],
