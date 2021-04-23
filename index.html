@@ -2,6 +2,7 @@
     <meta charset="UTF-8">
     <title>Parallel Coordinates</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
 </head>
 
 <body>
@@ -23,8 +24,9 @@
         }
     </style>
     
-    <script>
-        Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/parcoords_data.csv', function (err, rows) {
+    <script> 
+
+        Plotly.d3.csv(null,function (err, rows) {
 
            /* function unpack(rows, key) {
                 return rows.map(function (row) {
